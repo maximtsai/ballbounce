@@ -1,16 +1,19 @@
 class Rect {
-    constructor(x, y, w, h, rotation = 0) {
-        this.rect = PhaserScene.add.rectangle(x, y, w, h, 0x4c7df3);
+    constructor(x, y, w, h, rotation, color) {
+        this.rect = PhaserScene.add.rectangle(x, y, w, h, color);
         // TODO: Fix these
-        this.circle1 = PhaserScene.add.sprite(x - 25, y + 10, 'ball_hit_box').setScale(0.2);
-        this.circle2 = PhaserScene.add.sprite(x + 25, y - 30, 'ball_hit_box').setScale(0.2);
+        console.log(x, y, w, h);
+        this.circle1 = PhaserScene.add.sprite(x-Math.cos(rotation)*w*0.5, y-Math.sin(rotation)*w*0.5, 'ball_hit_box');
+        this.circle2 = PhaserScene.add.sprite(x+Math.cos(rotation)*w*0.5, y+Math.sin(rotation)*w*0.5, 'ball_hit_box');
+        this.circle1.setScale(h/this.circle1.height);
+        this.circle2.setScale(h/this.circle2.height);
 
         this.rect.rotation = rotation;
     }
 
     handleCollisionWithBall(ball1) {
         let rect = this.rect;
-
+        
         //come back later could cause error when ball is inside rectangle
         let dist_top = ball1.y-(rect.y-rect.height*0.5);
         let dist_bottom = ball1.y-(rect.y+rect.height*0.5);
@@ -53,7 +56,7 @@ class Rect {
                             width: rect.height,
                             height: rect.height
                         }
-                        collideBallWithStaticBall(ball1, staticLeftBall);
+                        this.collideBallWithStaticBall(ball1, staticLeftBall);
                     } else if (ball1.x >= rectRightmost) {
                         // ball hit Right circle 
                         let staticRightBall = {
@@ -62,7 +65,7 @@ class Rect {
                             width: rect.height,
                             height: rect.height
                         }
-                        collideBallWithStaticBall(ball1, staticRightBall);
+                        this.collideBallWithStaticBall(ball1, staticRightBall);
                     } else {
                         // Easy case, ball actually hit top side of wall
                         let newBallY = rectTopmost - ball1.width*0.5;
@@ -84,7 +87,7 @@ class Rect {
                             width: rect.height,
                             height: rect.height
                         }
-                        collideBallWithStaticBall(ball1, staticRightBall);
+                        this.collideBallWithStaticBall(ball1, staticRightBall);
                     } else if (ball1.x <= rectLeftmost) {
                         // ball hit left circle 
                         let staticBall = {
@@ -93,7 +96,7 @@ class Rect {
                             width: rect.height,
                             height: rect.height
                         }
-                        collideBallWithStaticBall(ball1, staticBall);
+                        this.collideBallWithStaticBall(ball1, staticBall);
                     } else {
                         // Easy case, ball actually hit top side of wall
                         let newBallY = rect.y-rect.height*0.5-ball1.width*0.5;
@@ -118,7 +121,7 @@ class Rect {
                             width: rect.height,
                             height: rect.height
                         }
-                        collideBallWithStaticBall(ball1, staticBall);
+                        this.collideBallWithStaticBall(ball1, staticBall);
                     } else if (ball1.x >= rectRightmost) {
                         // ball hit left circle 
                         let staticRightBall = {
@@ -127,7 +130,7 @@ class Rect {
                             width: rect.height,
                             height: rect.height
                         }
-                        collideBallWithStaticBall(ball1, staticRightBall);
+                        this.collideBallWithStaticBall(ball1, staticRightBall);
                     } else {
                         // Easy case, ball actually hit top side of wall
                         let newBallY = rect.y + rect.height*0.5 + ball1.width*0.5;
@@ -146,7 +149,7 @@ class Rect {
 
     // This function assumes 2 circular objects have collided
     // and that the second object is static and non-moving
-    function collideBallWithStaticBall(ball, staticBall) {
+    collideBallWithStaticBall(ball, staticBall) {
         let distX = ball.x - staticBall.x;
         let distY = ball.y - staticBall.y;
         let distBetweenBalls = Math.sqrt(distX * distX + distY * distY);

@@ -2,8 +2,8 @@ let config = {
     type: Phaser.CANVAS,
     scale: {
         parent: 'spellwheel',
-        width: 500,
-        height: 500,
+        width: 2000,
+        height: 2000,
         autoRound: true,
         mode: Phaser.Scale.FIT,
 
@@ -86,30 +86,48 @@ function myCreate ()
     globalObjects.ball.lastX = globalObjects.ball.x;
     globalObjects.ball.lastY = globalObjects.ball.y;
     globalObjects.ball.velX = 1;
-    globalObjects.ball.velY = -10;
+    globalObjects.ball.velY = 0;
 
 
     // rect.js, turn this into a proper class
-    globalObjects.rect = new Rect(300, 100, 200, 10);
+    //create 4 rings of rectangles
+    for (let i = 0; i < 64; i++) {
+        let angle = Math.PI*2*i/64;
+        globalObjects.rect = new Rect(gameConsts.width*0.5 + 1000*Math.cos(angle), 1000 + 1000*Math.sin(angle), 95, 10, angle+Math.PI*0.5, 0x4c7df3);
+    }
+    for (let i = 0; i < 64; i++) {
+        let angle = Math.PI*2*i/64;
+        globalObjects.rect = new Rect(1000 + 750*Math.cos(angle), 1000 + 750*Math.sin(angle), 75, 10, angle+Math.PI*0.5, 0xf8766d);
+    }
+    for (let i = 0; i < 64; i++) {
+        let angle = Math.PI*2*i/64;
+        globalObjects.rect = new Rect(1000 + 500*Math.cos(angle), 1000 + 500*Math.sin(angle), 50, 10, angle+Math.PI*0.5, 0xebc157);
+    }
+    for (let i = 0; i < 64; i++) {
+        let angle = Math.PI*2*i/64;
+        globalObjects.rect = new Rect(1000 + 250*Math.cos(angle), 1000 + 250*Math.sin(angle), 25, 10, angle+Math.PI*0.5, 0xe8f964);
+    }
+
 
     radius = globalObjects.ball.width * 0.5;
 }
 
-let delayTick = 8
+let delayTick = 8;
 
 function myUpdate(time, delta) {
-    if (delayTick > 0) {
+    /*if (delayTick > 0) {
         delayTick--;
         return;
     } else {
         delayTick = 8;
-    }
+    }*/
 
     let ball1 = globalObjects.ball;
     ball1.lastX = ball1.x;
     ball1.lastY = ball1.y;
     ball1.x += ball1.velX;
     ball1.y += ball1.velY;
+    ball1.velY += 0.25;
 
     // If ball is closer than this distance to rect,
     globalObjects.rect.handleCollisionWithBall(ball1);
@@ -125,15 +143,15 @@ function myUpdate(time, delta) {
 function handleBounds(ball) {
     if (ball.y > gameConsts.height - ball.width * 0.5) {
         ball.y = gameConsts.height - ball.width * 0.5;
-        ball.velY *= -0.99;
+        ball.velY *= -1;
     }
 
     if (ball.x > gameConsts.width - ball.width * 0.5) {
         ball.x = gameConsts.width - ball.width * 0.5;
-        ball.velX *= -0.99;
+        ball.velX *= -1;
     } else if (ball.x < ball.width * 0.5) {
         ball.x = ball.width * 0.5;
-        ball.velX *= -0.99;
+        ball.velX *= -1;
     }
 }
 
