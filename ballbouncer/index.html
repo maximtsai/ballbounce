@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<link href=data:, rel=icon>
+<head>
+    <meta charset="UTF-8" />
+    <title>Spell Wheel</title>
+    <link rel="icon" type="image/x-icon" href="/sprites/favicon.png">
+    <script src="phaser.min.js"></script>
+    <script src="imageFiles.js"></script>
+    <script src="loadingscreen.js"></script>
+    <noscript>Please enable javascript to play this game.</noscript>
+    <style type="text/css">
+        body {
+            margin: 0;
+			background-color: #555555;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+        }
+        html {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+        }
+		canvas {
+            display: block;
+            margin: 0;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+		}
+        #oldcanvas {
+            display:block;
+            margin: 0;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0%);
+        }
+		#spellwheel {
+			margin: 0 auto;
+		}
+    </style>
+</head>
+<body onload="onloadFunc()" onresize="resizeGame()">
+    <div id="preload-notice">Loading Preloader...</div>
+    <script src="main.js"></script>
+</body>
+</html>
